@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hoc-tap",
+    "name": "Học tập",
+    "createdAt": "2026-10-12T08:00:00.000Z"
+  },
+  {
+    "id": "cong-viec",
+    "name": "Công việc",
+    "createdAt": "2026-10-12T08:00:00.000Z"
+  },
+  {
+    "id": "ca-nhan",
+    "name": "Cá nhân",
+    "createdAt": "2026-10-12T08:00:00.000Z"
+  },
+  {
+    "id": "y-tuong-du-an",
+    "name": "Ý tưởng dự án",
+    "createdAt": "2026-10-12T08:00:00.000Z"
+  }
+]

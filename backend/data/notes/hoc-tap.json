@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1760256000000",
+    "title": "Kế hoạch bảo vệ đồ án",
+    "content": "- Hoàn thiện slide trình bày\n- Tập demo 2 lần\n- Nộp file Source.zip và Slide.pptx",
+    "createdAt": "2026-10-12T08:00:00.000Z",
+    "updatedAt": "2026-10-12T08:00:00.000Z"
+  },
+  {
+    "id": "1760259600000",
+    "title": "Ôn thi giữa kỳ ReactJS",
+    "content": "Ôn lại Hooks: useState, useEffect, useContext.\nLàm lại bài tập Router.",
+    "createdAt": "2026-10-12T09:00:00.000Z",
+    "updatedAt": "2026-10-12T09:00:00.000Z"
+  },
+  {
+    "id": "1760263200000",
+    "title": "Nộp bài tập lớn (đã gia hạn)",
+    "content": "Hạn nộp: thứ 6 tuần sau, nộp file .zip lên LMS.",
+    "createdAt": "2026-10-12T10:00:00.000Z",
+    "updatedAt": "2026-10-12T10:30:00.000Z"
+  }
+]

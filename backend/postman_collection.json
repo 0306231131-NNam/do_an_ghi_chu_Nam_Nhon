@@ -1,0 +1,497 @@
+{
+  "info": {
+    "name": "Do an Quan ly Ghi chu - API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Chạy lần lượt từ trên xuống. id ghi chú tự lưu vào biến collection."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "topic",
+      "value": "hoc-tap"
+    },
+    {
+      "key": "noteId",
+      "value": ""
+    },
+    {
+      "key": "privateNoteId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Sprint 1 - Profile",
+      "item": [
+        {
+          "name": "GET profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT profile (tên, theme, màu, tạo mật khẩu lần đầu)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Nam\",\n  \"theme\": \"dark\",\n  \"primaryColor\": \"#0e7c86\",\n  \"password\": \"1234\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PUT đổi mật khẩu (cần mật khẩu cũ)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"5678\",\n  \"oldPassword\": \"1234\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sprint 2 - Notes",
+      "item": [
+        {
+          "name": "GET danh sách ghi chú",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notes/{{topic}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notes",
+                "{{topic}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST thêm ghi chú",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notes/{{topic}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notes",
+                "{{topic}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Lịch họp dự án\",\n  \"content\": \"Họp sáng thứ 2 lúc 9h00\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.note) pm.collectionVariables.set('noteId', d.note.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST thiếu tiêu đề (phải 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notes/{{topic}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notes",
+                "{{topic}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"   \",\n  \"content\": \"x\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PUT sửa ghi chú",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notes/{{topic}}/{{noteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notes",
+                "{{topic}}",
+                "{{noteId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Lịch họp dự án (đã dời)\",\n  \"content\": \"Họp chiều thứ 2 lúc 14h00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "DELETE xóa ghi chú",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notes/{{topic}}/{{noteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notes",
+                "{{topic}}",
+                "{{noteId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chủ đề & Tìm kiếm",
+      "item": [
+        {
+          "name": "GET danh sách chủ đề",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/topics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "topics"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST tạo chủ đề",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/topics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "topics"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ý tưởng\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PUT đổi tên chủ đề",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/topics/y-tuong",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "topics",
+                "y-tuong"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ý tưởng dự án\"\n}"
+            }
+          }
+        },
+        {
+          "name": "DELETE xóa chủ đề",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/topics/y-tuong",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "topics",
+                "y-tuong"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET tìm kiếm",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/search?q=hop",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "hop"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sprint 3 - Private",
+      "item": [
+        {
+          "name": "POST auth sai mật khẩu (phải 401)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/private/auth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "auth"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"abcde\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST auth đúng mật khẩu",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/private/auth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "auth"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"1234\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET ghi chú kín",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/private/notes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "notes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST thêm ghi chú kín",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/private/notes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "notes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Tài khoản ngân hàng\",\n  \"content\": \"STK: ...\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.note) pm.collectionVariables.set('privateNoteId', d.note.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT sửa ghi chú kín",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/private/notes/{{privateNoteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "notes",
+                "{{privateNoteId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Tài khoản ngân hàng\",\n  \"content\": \"Đã cập nhật\"\n}"
+            }
+          }
+        },
+        {
+          "name": "DELETE xóa ghi chú kín",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/private/notes/{{privateNoteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "private",
+                "notes",
+                "{{privateNoteId}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
