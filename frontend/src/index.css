@@ -1,0 +1,88 @@
+/* ============================================================================
+   CSS dùng chung. Màu sáng/tối và màu chủ đạo lấy từ biến CSS (--primary, --bg...)
+   do Layout.jsx gán theo AppContext -> đổi trong Cài đặt là cả app đổi theo.
+   ============================================================================ */
+body { margin: 0; font-family: Arial, sans-serif; }
+input, textarea, select, button { font-size: 14px; padding: 6px; box-sizing: border-box; font-family: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Ô nhập và nút đổi màu theo theme Sáng/Tối */
+.app input, .app textarea, .app select {
+  background: var(--input-bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.app button { background: var(--btn-bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
+.app .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.app .btn-danger { color: #e53935; }
+
+/* ---------- Layout: Sidebar + nội dung ---------- */
+.app { display: flex; min-height: 100vh; background: var(--bg); color: var(--text); }
+.sidebar { width: 220px; padding: 20px; background: var(--sidebar); box-sizing: border-box; flex-shrink: 0; }
+.sidebar-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sidebar-top h3 { margin: 0; word-break: break-word; }
+.menu-toggle { display: none; font-size: 20px; line-height: 1; padding: 4px 10px; }
+.content { flex: 1; padding: 20px; min-width: 0; }
+
+/* Lưới thẻ ghi chú tự xuống hàng theo độ rộng màn hình */
+.note-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
+.note-card { word-break: break-word; }
+
+/* ---------- Điện thoại / màn hình hẹp ---------- */
+@media (max-width: 768px) {
+  .app { flex-direction: column; }
+  .sidebar { width: 100%; padding: 12px 16px; }
+  .sidebar-top h3 { font-size: 16px; }
+  .menu-toggle { display: inline-block; }
+  .sidebar nav { display: none; margin-top: 10px !important; }
+  .sidebar.open nav { display: block; }
+  .content { padding: 16px; }
+  .form-row label { display: block; margin-bottom: 4px; }
+}
+
+/* ---------- Toast (thông báo) ---------- */
+.toast-container {
+  position: fixed; right: 16px; bottom: 16px; z-index: 1000;
+  display: flex; flex-direction: column; gap: 8px; max-width: calc(100% - 32px);
+}
+.toast {
+  padding: 12px 16px; border-radius: 6px; color: #fff; font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: toast-in 0.2s ease-out;
+}
+.toast-success { background: #2e7d32; }
+.toast-error { background: #c62828; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Loading spinner ---------- */
+.spinner {
+  display: inline-block; width: 16px; height: 16px; vertical-align: middle;
+  border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+
+/* ---------- Popup (Modal) nhập mật khẩu ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 900; padding: 16px;
+  background: rgba(0, 0, 0, 0.55); display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  width: 100%; max-width: 360px; padding: 24px; border-radius: 8px; text-align: center;
+  background: var(--bg); color: var(--text); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.modal h3 { margin-top: 0; }
+.modal input { width: 100%; margin-bottom: 10px; }
+.modal .actions { display: flex; gap: 10px; justify-content: center; }
+
+/* ---------- Chủ đề, Cài đặt ---------- */
+.topic-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.topic-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; align-items: center; }
+.panel { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; max-width: 560px; }
+.panel h3 { margin-top: 0; }
+.form-row { margin-top: 12px; }
+.form-row label { display: inline-block; min-width: 150px; }
+.swatches { display: inline-flex; gap: 8px; flex-wrap: wrap; align-items: center; vertical-align: middle; }
+.app .swatch { width: 28px; height: 28px; padding: 0; border-radius: 50%; border: 3px solid transparent; }
+.app .swatch.active { border-color: var(--text); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; color: #fff; background: var(--primary); }
